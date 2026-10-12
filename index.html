@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configuración de servidores de Minecraft</title>
+<meta name="description" content="Configuramos tu servidor de Minecraft listo para jugar. Añade complementos y recibe tu cotización.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7f5;--surface:#fff;--ink:#16211c;--muted:#5d6b64;--line:#dde3df;--accent:#1b7a4f;--accent-ink:#fff;--accent-soft:#e6f2eb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101613;--surface:#18201c;--ink:#eaf0ec;--muted:#9aa9a1;--line:#2a352f;--accent:#3fb37c;--accent-ink:#08150e;--accent-soft:#1c2c24}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif;padding-top:env(safe-area-inset-top,0)}
+h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;line-height:1.1;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.hero{padding:56px 0 36px;border-bottom:1px solid var(--line)}
+.brand{font-weight:600;color:var(--accent);margin-bottom:28px}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);max-width:15ch;letter-spacing:-.02em}
+.hero p{max-width:52ch;color:var(--muted);font-size:1.1rem;margin:18px 0 0}
+.facts{display:flex;flex-wrap:wrap;gap:8px 24px;margin:26px 0 0;padding:0;list-style:none;color:var(--muted);font-size:.95rem}
+.facts li::before{content:"✓ ";color:var(--accent);font-weight:700}
+main.grid{display:grid;grid-template-columns:1fr 360px;gap:40px;padding:40px 0 80px;align-items:start}
+section+section{margin-top:44px}
+h2{font-size:1.5rem;margin-bottom:6px}
+.sub{color:var(--muted);margin:0 0 18px}
+.pkgs{display:grid;grid-template-columns:1fr;gap:14px}
+.opt{position:relative;display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;cursor:pointer}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.opt:has(input:checked){border-color:var(--accent);box-shadow:0 0 0 2px var(--accent);background:var(--accent-soft)}
+.opt:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:3px}
+.pkg h3{font-size:1.2rem}
+.price{font-size:1.6rem;font-weight:600;margin:6px 0 10px}
+.price small{font-size:.85rem;color:var(--muted);font-weight:400}
+.pkg ul{margin:0;padding-left:18px;color:var(--muted);font-size:.93rem}
+.pkg .tag{position:absolute;top:-10px;right:12px;background:var(--accent);color:var(--accent-ink);font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:99px}
+.addons{display:grid;gap:10px}
+.addon{display:flex;gap:14px;align-items:flex-start;padding:14px 16px}
+.addon input{position:static;opacity:1;width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:none}
+.addon .t{flex:1}
+.addon b{font-weight:600}
+.addon span.d{display:block;color:var(--muted);font-size:.9rem}
+.addon .p{font-weight:600;white-space:nowrap}
+aside{position:sticky;top:20px}
+.invoice{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+.invoice h2{font-size:1.25rem}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}
+.lines{list-style:none;margin:0;padding:0;min-height:48px}
+.lines li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:.95rem}
+.lines li.empty{color:var(--muted);border:0}
+.coupon{display:flex;gap:8px;margin:12px 0 4px}.coupon input{margin:0;flex:1}.coupon button{font:inherit;font-weight:600;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:0 14px;cursor:pointer}.cstatus{font-size:.85rem;margin:2px 0 6px;min-height:1.2em}.cstatus.ok{color:var(--accent)}.cstatus.err{color:#c0392b}
+.row{display:flex;justify-content:space-between;padding:6px 0;color:var(--muted)}
+.row.total{color:var(--ink);font-weight:600;font-size:1.35rem;border-top:2px solid var(--ink);margin-top:8px;padding-top:12px}
+form{margin-top:18px;display:grid;gap:10px}
+label{font-size:.88rem;font-weight:500}
+input[type=text],input[type=email],textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);margin-top:4px}
+input:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+textarea{resize:vertical;min-height:70px}
+button.send{font:inherit;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:13px;cursor:pointer}
+button.send:disabled{opacity:.5;cursor:not-allowed}
+.note{font-size:.82rem;color:var(--muted);margin:0}
+.status{font-size:.92rem;margin:0;min-height:1.2em}
+.status.ok{color:var(--accent)}.status.err{color:#c0392b}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);font-size:.9rem}
+@media (max-width:900px){main.grid{grid-template-columns:1fr}aside{position:static}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <div class="brand" id="brandName">Tu Marca</div>
+  <h1>Tu servidor de Minecraft, configurado y listo para jugar</h1>
+  <p>Marca los complementos que necesites y mira tu cotización al instante. Sin compromiso: solo envías la solicitud y te respondo.</p>
+  <ul class="facts"><li>Java y Bedrock</li><li>Soporte post-entrega incluido</li></ul>
+</div></header>
+
+<div class="wrap"><main class="grid">
+<div>
+  <section>
+    <h2>1. Paquete base</h2>
+    <p class="sub">Pago único por la configuración. El hosting no está incluido.</p>
+    <div class="pkgs" id="pkgs"></div>
+  </section>
+  <section>
+    <h2>2. Añade complementos</h2>
+    <p class="sub">Marca los que quieras sumar a tu paquete.</p>
+    <div class="addons" id="addons"></div>
+  </section>
+</div>
+
+<aside id="prefactura"><div class="invoice">
+  <h2>Prefactura</h2>
+  <div class="meta"><span id="qid"></span><span id="qdate"></span></div>
+  <ul class="lines" id="lines"></ul>
+  <div class="coupon"><input type="text" id="couponIn" placeholder="Código de cupón" aria-label="Código de cupón" autocomplete="off" autocapitalize="off"><button type="button" id="couponBtn">Aplicar</button></div>
+  <p class="cstatus" id="cstatus" role="status"></p>
+  <div class="row"><span>Subtotal</span><span id="sub">$0</span></div>
+  <div class="row" id="discRow" hidden><span id="discLbl"></span><span id="disc"></span></div>
+  <div class="row" id="baseNote" hidden style="font-size:.85rem"><span>El desarrollo de plugins se cobra desde el precio base; el valor final se confirma al responder.</span></div>
+  <div class="row total"><span>Total</span><span id="total">$0</span></div>
+  <div class="row" id="monthlyRow" hidden><span>+ Mensual</span><span id="monthly"></span></div>
+  <form id="form" novalidate>
+    <label>Nombre<input type="text" name="nombre" autocomplete="name" required></label>
+    <label>Correo<input type="email" name="correo" autocomplete="email" required></label>
+    <label>Discord (opcional)<input type="text" name="discord" placeholder="usuario"></label>
+    <label>Notas (versión, modpack, jugadores…)<textarea name="notas"></textarea></label>
+    <button class="send" type="submit" disabled id="send">Enviar solicitud</button>
+    <p class="status" id="status" role="status"></p>
+    <p class="note">Enviar la solicitud no genera ningún cobro. Los precios son en USD.</p>
+  </form>
+</div></aside>
+</main></div>
+
+<footer><div class="wrap">© <span id="year"></span> <span id="brandFoot"></span>. Minecraft es una marca de Mojang AB; este servicio no está afiliado a Mojang ni a Microsoft.</div></footer>
+
+<script>
+/* ===== CONFIGURA AQUÍ ===== */
+const CONFIG = {
+  brand: "Programador independiente",  // Nombre o marca que se muestra
+  email: "tucorreo@ejemplo.com",     // Correo donde recibirás las solicitudes
+  coupon: {hash:"d848aea2327ded70fc4e091961d73b9f4cc8a34acc826380ee2ec1523ca19031", percent:15},   // Cupón secreto: solo se guarda su huella SHA-256
+  formEndpoint: "",                  // Opcional: URL de Formspree/Web3Forms para envío automático
+  packages: [
+    {id:"basico",   name:"Básico",   price:30,  items:["Configuración de archivos base Paper","Modo Survival","Gestión de mundos","Economía","Rangos","Portales, menús y hologramas","Protecciones","Kits","Plugin premium CMI"]}
+  ],
+  addons: [
+    {id:"tiendas",    name:"Tiendas",                            desc:"Tiendas de jugadores y de servidor", price:20},
+    {id:"custom",     name:"Integración de custom models, mobs e ítems", desc:"Modelos, criaturas y objetos personalizados integrados al servidor", price:40},
+    {id:"dungeons",   name:"Dungeons",                           desc:"Mazmorras con jefes, recompensas y progresión", price:45},
+    {id:"plugins",   name:"Desarrollo personalizado de plugins", desc:"Plugin hecho a tu medida. Precio base: el valor final se confirma según el alcance", price:40, base:true},
+    {id:"web",        name:"Landing page",                       desc:"Landing page para tu servidor", price:50},
+    {id:"crossplay", name:"Compatibilidad Java/Bedrock", desc:"Jugadores de Java y Bedrock en el mismo servidor", price:20},
+    {id:"retro",     name:"Retrocompatibilidad con versiones anteriores", desc:"Permite conectarse desde versiones antiguas del juego", price:15},
+    {id:"bot",        name:"Bot de Discord enlazado",            desc:"Chat sincronizado y estado del servidor", price:18},
+    {id:"soporte",    name:"Soporte mensual",                    desc:"Actualizaciones, ajustes y atención continua", price:25, monthly:true}
+  ]
+};
+/* ========================== */
+const $ = id => document.getElementById(id);
+const usd = n => "$" + n.toLocaleString("en-US",{minimumFractionDigits:n%1?2:0}) + " USD";
+const fmtDate = d => d.toLocaleDateString("es",{day:"numeric",month:"short",year:"numeric"});
+const now = new Date();
+const qid = "COT-" + now.toISOString().slice(2,10).replace(/-/g,"") + "-" + Math.floor(1000+Math.random()*9000);
+$("brandName").textContent = CONFIG.brand; $("brandFoot").textContent = CONFIG.brand;
+$("year").textContent = now.getFullYear(); $("qid").textContent = qid; $("qdate").textContent = fmtDate(now);
+
+$("pkgs").innerHTML = CONFIG.packages.map(p => `
+  <label class="opt pkg">
+    ${p.featured?'<span class="tag">Más elegido</span>':''}
+    <input type="radio" name="pkg" value="${p.id}" checked>
+    <h3>${p.name}</h3>
+    <div class="price">${usd(p.price)}</div>
+    <ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul>
+  </label>`).join("");
+
+$("addons").innerHTML = CONFIG.addons.map(a => `
+  <label class="opt addon">
+    <input type="checkbox" name="addon" value="${a.id}">
+    <span class="t"><b>${a.name}</b><span class="d">${a.desc}</span></span>
+    <span class="p">${a.base?"Desde ":""}${usd(a.price)}${a.monthly?" /mes":""}</span>
+  </label>`).join("");
+
+let couponOn = false;
+function state(){
+  const pkg = CONFIG.packages.find(p => p.id === (document.querySelector('input[name=pkg]:checked')||{}).value);
+  const checked = [...document.querySelectorAll('input[name=addon]:checked')].map(i => CONFIG.addons.find(a => a.id === i.value));
+  const once = checked.filter(a => !a.monthly), monthly = checked.filter(a => a.monthly);
+  const subtotal = (pkg?pkg.price:0) + once.reduce((s,a)=>s+a.price,0);
+  const discount = couponOn ? Math.round(subtotal*CONFIG.coupon.percent)/100 : 0;
+  const total = Math.round((subtotal-discount)*100)/100;
+  const mTotal = monthly.reduce((s,a)=>s+a.price,0);
+  return {pkg, once, monthly, subtotal, discount, total, mTotal};
+}
+function render(){
+  const s = state();
+  const li = [];
+  if(s.pkg) li.push(`<li><span>Paquete ${s.pkg.name}</span><span>${usd(s.pkg.price)}</span></li>`);
+  s.once.forEach(a => li.push(`<li><span>${a.name}${a.base?" (precio base)":""}</span><span>${usd(a.price)}</span></li>`));
+  s.monthly.forEach(a => li.push(`<li><span>${a.name}</span><span>${usd(a.price)}/mes</span></li>`));
+  $("lines").innerHTML = li.length ? li.join("") : '<li class="empty">Marca complementos para sumarlos a tu cotización.</li>';
+  $("sub").textContent = usd(s.subtotal); $("total").textContent = usd(s.total);
+  $("discRow").hidden = !couponOn; $("discLbl").textContent = `Cupón de descuento (-${CONFIG.coupon.percent}%)`; $("disc").textContent = "-" + usd(s.discount);
+  $("monthlyRow").hidden = !s.mTotal; $("monthly").textContent = usd(s.mTotal) + "/mes";
+  $("send").disabled = !s.pkg;
+  $("baseNote").hidden = !s.once.some(a => a.base);
+}
+document.addEventListener("change", render); render();
+let applied = "";
+async function sha256(t){
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,"0")).join("");
+}
+async function applyCoupon(){
+  const v = $("couponIn").value.trim().toLowerCase(), cs = $("cstatus");
+  if(!v){ cs.textContent = ""; return; }
+  let ok = false;
+  try{ ok = (await sha256(v)) === CONFIG.coupon.hash; }catch(_){}
+  couponOn = ok; applied = v;
+  cs.className = "cstatus " + (ok ? "ok" : "err");
+  cs.textContent = ok ? `Cupón aplicado: ${CONFIG.coupon.percent}% de descuento.` : "Cupón no válido.";
+  render();
+}
+$("couponBtn").addEventListener("click", applyCoupon);
+$("couponIn").addEventListener("keydown", e => { if(e.key==="Enter"){ e.preventDefault(); applyCoupon(); } });
+$("couponIn").addEventListener("input", () => { if(couponOn && $("couponIn").value.trim().toLowerCase()!==applied){ couponOn=false; $("cstatus").textContent=""; render(); } });
+
+function summary(f){
+  const s = state();
+  const L = [`Solicitud de cotización ${qid} (${fmtDate(now)})`,"",
+    `Nombre: ${f.nombre}`,`Correo: ${f.correo}`,`Discord: ${f.discord||"—"}`,"",
+    `Paquete: ${s.pkg.name} — ${usd(s.pkg.price)}`];
+  s.once.forEach(a => L.push(`+ ${a.name}${a.base?" (precio base, a confirmar)":""} — ${usd(a.price)}`));
+  s.monthly.forEach(a => L.push(`+ ${a.name} — ${usd(a.price)}/mes`));
+  if(couponOn) L.push("",`Subtotal: ${usd(s.subtotal)}`,`Cupón de descuento (-${CONFIG.coupon.percent}%): -${usd(s.discount)}`);
+  L.push("",`TOTAL: ${usd(s.total)}` + (s.mTotal?` (+ ${usd(s.mTotal)}/mes)`:""),"",`Notas: ${f.notas||"—"}`);
+  return L.join("\n");
+}
+$("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const st = $("status"); st.className = "status";
+  const f = Object.fromEntries(new FormData(e.target));
+  if(!f.nombre.trim() || !/^\S+@\S+\.\S+$/.test(f.correo)){ st.textContent = "Escribe tu nombre y un correo válido."; st.classList.add("err"); return; }
+  const body = summary(f);
+  if(CONFIG.formEndpoint){
+    try{
+      const r = await fetch(CONFIG.formEndpoint,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({asunto:`Solicitud ${qid}`,email:f.correo,mensaje:body})});
+      if(!r.ok) throw 0;
+      st.textContent = "Solicitud enviada. Te responderé pronto."; st.classList.add("ok"); e.target.reset(); return;
+    }catch(_){ st.textContent = "No se pudo enviar. Inténtalo de nuevo."; st.classList.add("err"); return; }
+  }
+  location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Solicitud "+qid)}&body=${encodeURIComponent(body)}`;
+  st.textContent = "Se abrió tu app de correo con la solicitud lista para enviar."; st.classList.add("ok");
+});
+</script>
+</body>
+</html>
