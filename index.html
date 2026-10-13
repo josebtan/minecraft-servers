@@ -120,7 +120,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);f
 /* ===== CONFIGURA AQUÍ ===== */
 const CONFIG = {
   brand: "Programador independiente",  // Nombre o marca que se muestra
-  email: "tucorreo@ejemplo.com",     // Correo donde recibirás las solicitudes
+  to: "am9zZXRhbjMyMkBnbWFpbC5jb20=",   // Destino de las solicitudes (codificado, no se muestra en la página)
   coupon: {hash:"d848aea2327ded70fc4e091961d73b9f4cc8a34acc826380ee2ec1523ca19031", percent:15},   // Cupón secreto: solo se guarda su huella SHA-256
   formEndpoint: "",                  // Opcional: URL de Formspree/Web3Forms para envío automático
   packages: [
@@ -231,7 +231,7 @@ $("form").addEventListener("submit", async e => {
       st.textContent = "Solicitud enviada. Te responderé pronto."; st.classList.add("ok"); e.target.reset(); return;
     }catch(_){ st.textContent = "No se pudo enviar. Inténtalo de nuevo."; st.classList.add("err"); return; }
   }
-  location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Solicitud "+qid)}&body=${encodeURIComponent(body)}`;
+  location.href = `mailto:${atob(CONFIG.to)}?subject=${encodeURIComponent("Solicitud "+qid)}&body=${encodeURIComponent(body)}`;
   st.textContent = "Se abrió tu app de correo con la solicitud lista para enviar."; st.classList.add("ok");
 });
 </script>
