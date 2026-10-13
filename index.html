@@ -26,7 +26,12 @@ h1,h2,h3{margin:0;line-height:1.15}
 .hero .wrap>*{animation:up .7s cubic-bezier(.2,.7,.2,1) both}
 .hero .wrap>:nth-child(2){animation-delay:.08s}.hero .wrap>:nth-child(3){animation-delay:.16s}.hero .wrap>:nth-child(4){animation-delay:.24s}
 @keyframes up{from{opacity:0;transform:translateY(14px)}}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;margin-bottom:48px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.dc{font:inherit;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);color:var(--ink);border:0;border-radius:99px;padding:8px 16px;cursor:pointer;font-size:.9rem;transition:background .2s,transform .1s}
+.dc span{color:var(--muted)}.dc b{font-weight:600}
+.dc:hover{background:var(--blurple)}.dc:hover span{color:#fff}
+.dc:active{transform:scale(.97)}
 .avatar{width:44px;height:44px;border-radius:8px;background:var(--blurple) url("https://minotar.net/helm/josetan/88") center/cover no-repeat;flex:none;image-rendering:pixelated}
 .brand b{display:block;line-height:1.2;font-size:1.05rem}.brand small{display:block;color:var(--muted);font-weight:500;font-size:.85rem}
 .hero h1{font-size:clamp(2.1rem,6vw,3.7rem);font-weight:800;max-width:18ch;letter-spacing:-.02em}
@@ -111,7 +116,8 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);f
 </head>
 <body>
 <header class="hero"><div class="wrap">
-  <div class="brand"><span class="avatar" aria-hidden="true"></span><div><b id="brandName">Josetan</b><small>Software developer</small></div></div>
+  <div class="topbar"><div class="brand"><span class="avatar" aria-hidden="true"></span><div><b id="brandName">Josetan</b><small>Software developer</small></div></div>
+  <button class="dc" id="dc" type="button" aria-label="Copiar usuario de Discord"><span>Discord</span><b id="dcUser"></b></button></div>
   <h1>Tu servidor de Minecraft, configurado y listo para jugar</h1>
   <p>Marca los complementos que necesites y mira tu cotización al instante. Sin compromiso: solo envías la solicitud y te respondo.</p>
   <ul class="facts"><li>Java y Bedrock</li><li>Soporte post-entrega incluido</li></ul>
@@ -161,6 +167,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);f
 <script>
 /* ===== CONFIGURA AQUÍ ===== */
 const CONFIG = {
+  discord: "Josetan",                // Usuario de Discord que se muestra y se copia al tocarlo
   brand: "Josetan",  // Nombre o marca que se muestra
   to: "am9zZXRhbjMyMkBnbWFpbC5jb20=",   // Destino de las solicitudes (codificado, no se muestra en la página)
   coupon: {hash:"d848aea2327ded70fc4e091961d73b9f4cc8a34acc826380ee2ec1523ca19031", percent:15},   // Cupón secreto: solo se guarda su huella SHA-256
@@ -187,6 +194,13 @@ const fmtDate = d => d.toLocaleDateString("es",{day:"numeric",month:"short",year
 const now = new Date();
 const qid = "COT-" + now.toISOString().slice(2,10).replace(/-/g,"") + "-" + Math.floor(1000+Math.random()*9000);
 $("brandName").textContent = CONFIG.brand; $("brandFoot").textContent = CONFIG.brand;
+$("dcUser").textContent = CONFIG.discord;
+$("dc").addEventListener("click", async () => {
+  const b = $("dcUser"); let ok = true;
+  try{ await navigator.clipboard.writeText(CONFIG.discord); }catch(_){ ok = false; }
+  b.textContent = ok ? "¡Copiado!" : CONFIG.discord;
+  setTimeout(() => b.textContent = CONFIG.discord, 1500);
+});
 $("year").textContent = now.getFullYear(); $("qid").textContent = qid; $("qdate").textContent = fmtDate(now);
 
 $("pkgs").innerHTML = CONFIG.packages.map(p => `
