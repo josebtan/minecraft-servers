@@ -17,7 +17,8 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Noto Sans",system-ui,sans-serif;padding-top:env(safe-area-inset-top,0)}
 h1,h2,h3{margin:0;line-height:1.15}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-.hero{position:relative;overflow:hidden;padding:32px 0 64px;background:linear-gradient(180deg,#25274f 0%,var(--bg) 100%)}
+.hero{position:relative;overflow:hidden;padding:32px 0 64px;background:linear-gradient(180deg,transparent 45%,var(--bg) 100%),linear-gradient(120deg,#25274f,#3a2a7d,#1d3b72,#4a2a7a,#25274f);background-size:100% 100%,400% 400%;animation:flow 16s ease-in-out infinite}
+@keyframes flow{0%,100%{background-position:0 0,0% 50%}50%{background-position:0 0,100% 50%}}
 .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(80px);opacity:.45;pointer-events:none}
 .hero::before{width:420px;height:420px;background:var(--blurple);top:-170px;right:-90px;animation:drift 14s ease-in-out infinite alternate}
 .hero::after{width:320px;height:320px;background:#8a4df0;left:-110px;bottom:-150px;animation:drift 18s ease-in-out infinite alternate-reverse}
@@ -28,9 +29,10 @@ h1,h2,h3{margin:0;line-height:1.15}
 @keyframes up{from{opacity:0;transform:translateY(14px)}}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:48px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700}
-.dc{font:inherit;text-decoration:none;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);color:var(--ink);border:0;border-radius:99px;padding:8px 16px;cursor:pointer;font-size:.9rem;transition:background .2s,transform .1s}
-.dc span{color:var(--muted)}.dc b{font-weight:600}
-.dc:hover{background:var(--blurple)}.dc:hover span{color:#fff}
+.dc{font:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:var(--blurple);color:#fff;border:0;border-radius:6px;padding:10px 18px;font-weight:600;font-size:.95rem;transition:background .2s,transform .15s,box-shadow .2s}
+.dc i{font-style:normal;transition:transform .2s}
+.dc:hover{background:var(--blurple-d);transform:translateY(-2px);box-shadow:0 8px 20px rgba(88,101,242,.4)}
+.dc:hover i{transform:translateX(4px)}
 .dc:active{transform:scale(.97)}
 .avatar{width:44px;height:44px;border-radius:8px;background:var(--blurple) url("https://minotar.net/helm/josetan/88") center/cover no-repeat;flex:none;image-rendering:pixelated}
 .brand b{display:block;line-height:1.2;font-size:1.05rem}.brand small{display:block;color:var(--muted);font-weight:500;font-size:.85rem}
@@ -104,7 +106,7 @@ button.send:disabled{opacity:.5;cursor:not-allowed}
 .status{font-size:.92rem;margin:0;min-height:1.2em}
 .status.ok{color:#57d28a}.status.err{color:var(--red)}
 .bar{display:none}
-footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);font-size:.9rem}
+footer{text-align:center;border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);font-size:.9rem}
 @media (max-width:900px){
  main.grid{grid-template-columns:1fr}aside{position:static}
  body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
@@ -117,7 +119,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);f
 <body>
 <header class="hero"><div class="wrap">
   <div class="topbar"><div class="brand"><span class="avatar" aria-hidden="true"></span><div><b id="brandName">Josetan</b><small>Software developer</small></div></div>
-  <a class="dc" id="dc" target="_blank" rel="noopener" aria-label="Abrir mi perfil de Discord"><span>Discord</span><b id="dcUser"></b></a></div>
+  <a class="dc" id="dc" target="_blank" rel="noopener" aria-label="Abrir mi perfil de Discord"><span>Hablemos por Discord</span><i aria-hidden="true">→</i></a></div>
   <h1>Tu servidor de Minecraft, configurado y listo para jugar</h1>
   <p>Marca los complementos que necesites y mira tu cotización al instante. Sin compromiso: solo envías la solicitud y te respondo.</p>
   <ul class="facts"><li>Java y Bedrock</li><li>Soporte post-entrega incluido</li></ul>
@@ -167,7 +169,6 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);f
 <script>
 /* ===== CONFIGURA AQUÍ ===== */
 const CONFIG = {
-  discord: "Josetan",                // Usuario de Discord que se muestra
   discordId: "454165113478447104",   // ID numérico: el botón abre este perfil
   brand: "Josetan",  // Nombre o marca que se muestra
   to: "am9zZXRhbjMyMkBnbWFpbC5jb20=",   // Destino de las solicitudes (codificado, no se muestra en la página)
@@ -195,7 +196,6 @@ const fmtDate = d => d.toLocaleDateString("es",{day:"numeric",month:"short",year
 const now = new Date();
 const qid = "COT-" + now.toISOString().slice(2,10).replace(/-/g,"") + "-" + Math.floor(1000+Math.random()*9000);
 $("brandName").textContent = CONFIG.brand; $("brandFoot").textContent = CONFIG.brand;
-$("dcUser").textContent = CONFIG.discord;
 $("dc").href = "https://discord.com/users/" + CONFIG.discordId;
 $("year").textContent = now.getFullYear(); $("qid").textContent = qid; $("qdate").textContent = fmtDate(now);
 
