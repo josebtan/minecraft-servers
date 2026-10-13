@@ -46,8 +46,15 @@ h1,h2,h3{margin:0;line-height:1.15}
 .dc:active{transform:scale(.97)}
 .avatar{width:44px;height:44px;border-radius:8px;background:var(--blurple) url("https://minotar.net/helm/josetan/88") center/cover no-repeat;flex:none;image-rendering:pixelated}
 .brand b{display:block;line-height:1.2;font-size:1.05rem}.brand small{display:block;color:var(--muted);font-weight:500;font-size:.85rem}
-.hero h1{font-size:clamp(2.1rem,6vw,3.7rem);font-weight:800;max-width:18ch;letter-spacing:-.02em}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.3rem);font-weight:800;max-width:18ch;letter-spacing:-.02em}
 .hero p{max-width:52ch;color:var(--muted);font-size:1.1rem;margin:18px 0 0}
+.hero-body{display:grid;grid-template-columns:minmax(0,540px) minmax(0,1fr);gap:24px 40px;align-items:center}
+.hero-text{min-width:0}
+.art{position:relative;width:100%;aspect-ratio:1000/671;pointer-events:none;user-select:none;animation:bob 8s ease-in-out infinite}
+.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;animation:slide 18s ease-in-out infinite both}
+.shot:nth-child(2){animation-delay:6s}.shot:nth-child(3){animation-delay:12s}
+@keyframes slide{0%{opacity:0;transform:translateX(-30px) scale(.94);filter:blur(10px)}5%,28%{opacity:1;transform:none;filter:blur(0)}34%,100%{opacity:0;transform:translateX(30px) scale(1.04);filter:blur(10px)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 .facts{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0;padding:0;list-style:none}
 .facts li{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);padding:6px 14px;border-radius:99px;font-size:.92rem;font-weight:500}
 .facts li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2.2s infinite}
@@ -124,8 +131,9 @@ footer p{margin:0;max-width:62ch;text-wrap:balance}
  body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
  .bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:5;justify-content:space-between;padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));background:var(--blurple);color:#fff;font-weight:600;text-decoration:none}
 }
+@media (max-width:900px){.hero-body{grid-template-columns:1fr}.art{order:2;max-width:480px;margin:-6px auto 0}}
 @media (max-width:640px){.hero{padding-bottom:84px}.waves{height:60px}.pkg{grid-template-columns:1fr}.pkg ul{grid-column:1;grid-row:auto;columns:1;margin-top:14px}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.shot{opacity:0}.shot:first-child{opacity:1}}
 </style>
 </head>
 <body>
@@ -139,9 +147,17 @@ footer p{margin:0;max-width:62ch;text-wrap:balance}
   <div class="wrap">
   <div class="topbar"><div class="brand"><span class="avatar" aria-hidden="true"></span><div><b id="brandName">Josetan</b><small>Software developer</small></div></div>
   <a class="dc" id="dc" target="_blank" rel="noopener" aria-label="Abrir mi perfil de Discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg><span>Discord</span></a></div>
+  <div class="hero-body">
+  <div class="art" aria-hidden="true">
+    <img class="shot" src="img/codigo.webp" alt="" width="1000" height="671" decoding="async">
+    <img class="shot" src="img/servidores.webp" alt="" width="1000" height="671" decoding="async">
+    <img class="shot" src="img/soporte.webp" alt="" width="1000" height="671" decoding="async">
+  </div>
+  <div class="hero-text">
   <h1>Tu servidor de Minecraft, configurado y listo para jugar</h1>
   <p>Marca los complementos que necesites y mira tu cotización al instante. Sin compromiso: solo envías la solicitud y te respondo.</p>
   <ul class="facts"><li>Java y Bedrock</li><li>Soporte post-entrega incluido</li></ul>
+  </div></div>
 </div></header>
 
 <div class="wrap"><main class="grid">
