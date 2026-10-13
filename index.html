@@ -34,7 +34,7 @@ h2{font-size:1.5rem;margin-bottom:6px}
 .opt:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:3px}
 .pkg h3{font-size:1.2rem}
 .price{font-size:1.6rem;font-weight:600;margin:6px 0 10px}
-.price small{font-size:.85rem;color:var(--muted);font-weight:400}
+.price s{color:var(--muted);font-size:1.05rem;font-weight:400}.price small{font-size:.85rem;color:var(--muted);font-weight:400}
 .pkg ul{margin:0;padding-left:18px;color:var(--muted);font-size:.93rem}
 .pkg .tag{position:absolute;top:-10px;right:12px;background:var(--accent);color:var(--accent-ink);font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:99px}
 .addons{display:grid;gap:10px}
@@ -99,7 +99,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);f
   <p class="cstatus" id="cstatus" role="status"></p>
   <div class="row"><span>Subtotal</span><span id="sub">$0</span></div>
   <div class="row" id="discRow" hidden><span id="discLbl"></span><span id="disc"></span></div>
-  <div class="row" id="baseNote" hidden style="font-size:.85rem"><span>El desarrollo de plugins se cobra desde el precio base; el valor final se confirma al responder.</span></div>
+  <div class="row" id="baseNote" hidden style="font-size:.85rem"><span>Los complementos marcados «desde» se cobran desde el precio base; el valor final se confirma al responder.</span></div>
   <div class="row total"><span>Total</span><span id="total">$0</span></div>
   <div class="row" id="monthlyRow" hidden><span>+ Mensual</span><span id="monthly"></span></div>
   <form id="form" novalidate>
@@ -124,18 +124,18 @@ const CONFIG = {
   coupon: {hash:"d848aea2327ded70fc4e091961d73b9f4cc8a34acc826380ee2ec1523ca19031", percent:15},   // Cupón secreto: solo se guarda su huella SHA-256
   formEndpoint: "",                  // Opcional: URL de Formspree/Web3Forms para envío automático
   packages: [
-    {id:"basico",   name:"Básico",   price:30,  items:["Configuración de archivos base Paper","Modo Survival","Gestión de mundos","Economía","Rangos","Portales, menús y hologramas","Protecciones","Kits","Plugin premium CMI"]}
+    {id:"basico",   name:"Básico",   price:50, oldPrice:80,  items:["Configuración de archivos base Paper","Modo Survival","Gestión de mundos","Economía","Rangos","Portales, menús y hologramas","Protecciones","Kits","Plugin premium CMI"]}
   ],
   addons: [
-    {id:"tiendas",    name:"Tiendas",                            desc:"Tiendas de jugadores y de servidor", price:5},
-    {id:"custom",     name:"Integración de custom models, mobs e ítems", desc:"Modelos, criaturas y objetos personalizados integrados al servidor", price:3},
-    {id:"dungeons",   name:"Dungeons",                           desc:"Mazmorras con jefes, recompensas y progresión", price:5},
-    {id:"plugins",   name:"Desarrollo personalizado de plugins", desc:"Plugin hecho a tu medida. Precio base: el valor final se confirma según el alcance", price:3, base:true},
-    {id:"web",        name:"Landing page",                       desc:"Landing page para tu servidor", price:8},
-    {id:"crossplay", name:"Compatibilidad Java/Bedrock", desc:"Jugadores de Java y Bedrock en el mismo servidor", price:1},
-    {id:"retro",     name:"Retrocompatibilidad con versiones anteriores", desc:"Permite conectarse desde versiones antiguas del juego", price:1},
-    {id:"bot",        name:"Bot de Discord enlazado",            desc:"Chat sincronizado y estado del servidor", price:2},
-    {id:"soporte",    name:"Soporte mensual",                    desc:"Actualizaciones, ajustes y atención continua", price:10, monthly:true}
+    {id:"tiendas",    name:"Tiendas",                            desc:"Tiendas de jugadores y de servidor", price:10},
+    {id:"custom",     name:"Integración de custom models, mobs e ítems", desc:"Modelos, criaturas y objetos personalizados integrados al servidor", price:25, base:true},
+    {id:"dungeons",   name:"Dungeons",                           desc:"Mazmorras con jefes, recompensas y progresión", price:30, base:true},
+    {id:"plugins",   name:"Desarrollo personalizado de plugins", desc:"Plugin hecho a tu medida. Precio base: el valor final se confirma según el alcance", price:20, base:true},
+    {id:"web",        name:"Landing page",                       desc:"Landing page para tu servidor", price:40},
+    {id:"crossplay", name:"Compatibilidad Java/Bedrock", desc:"Jugadores de Java y Bedrock en el mismo servidor", price:10},
+    {id:"retro",     name:"Retrocompatibilidad con versiones anteriores", desc:"Permite conectarse desde versiones antiguas del juego", price:8},
+    {id:"bot",        name:"Bot de Discord enlazado",            desc:"Chat sincronizado y estado del servidor", price:12},
+    {id:"soporte",    name:"Soporte mensual",                    desc:"Actualizaciones, ajustes y atención continua", price:15, monthly:true}
   ]
 };
 /* ========================== */
@@ -152,7 +152,7 @@ $("pkgs").innerHTML = CONFIG.packages.map(p => `
     ${p.featured?'<span class="tag">Más elegido</span>':''}
     <input type="radio" name="pkg" value="${p.id}" checked>
     <h3>${p.name}</h3>
-    <div class="price">${usd(p.price)}</div>
+    <div class="price">${p.oldPrice?`<s>${usd(p.oldPrice)}</s> `:""}${usd(p.price)}${p.oldPrice?" <small>precio de lanzamiento</small>":""}</div>
     <ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul>
   </label>`).join("");
 
