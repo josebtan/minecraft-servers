@@ -48,9 +48,9 @@ h1,h2,h3{margin:0;line-height:1.15}
 .brand b{display:block;line-height:1.2;font-size:1.05rem}.brand small{display:block;color:var(--muted);font-weight:500;font-size:.85rem}
 .hero h1{font-size:clamp(2.1rem,4.6vw,3.3rem);font-weight:800;max-width:18ch;letter-spacing:-.02em}
 .hero p{max-width:52ch;color:var(--muted);font-size:1.1rem;margin:18px 0 0}
-.hero-body{display:grid;grid-template-columns:minmax(0,540px) minmax(0,1fr);gap:24px 40px;align-items:center}
+.hero-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,540px);gap:24px 40px;align-items:center}
 .hero-text{min-width:0}
-.art{position:relative;width:100%;aspect-ratio:1000/671;pointer-events:none;user-select:none;animation:bob 8s ease-in-out infinite}
+.art{order:2;position:relative;width:100%;aspect-ratio:1000/671;pointer-events:none;user-select:none;animation:bob 8s ease-in-out infinite}
 .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;animation:slide 18s ease-in-out infinite both}
 .shot:nth-child(2){animation-delay:6s}.shot:nth-child(3){animation-delay:12s}
 @keyframes slide{0%{opacity:0;transform:translateX(-30px) scale(.94);filter:blur(10px)}5%,28%{opacity:1;transform:none;filter:blur(0)}34%,100%{opacity:0;transform:translateX(30px) scale(1.04);filter:blur(10px)}}
