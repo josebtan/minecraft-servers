@@ -20,12 +20,13 @@ h1,h2,h3{margin:0;line-height:1.15}
 .hero{position:relative;overflow:hidden;padding:32px 0 100px;background:linear-gradient(120deg,#25274f,#3a2a7d,#1d3b72,#4a2a7a,#25274f);background-size:400% 400%;animation:flow 16s ease-in-out infinite}
 @keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .fluid{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.fluid i{position:absolute;display:block;width:min(85vw,900px);aspect-ratio:3/2;opacity:.6;will-change:transform;animation:blob 24s ease-in-out infinite}
-.fluid i:nth-child(1){top:-40%;left:-14%;--x1:32vw;--y1:22%;--x2:10vw;--y2:40%;background:radial-gradient(closest-side,#5865f2,transparent)}
-.fluid i:nth-child(2){top:-30%;right:-18%;--x1:-30vw;--y1:30%;--x2:-8vw;--y2:12%;background:radial-gradient(closest-side,#8a4df0,transparent);animation-duration:28s;animation-direction:reverse}
-.fluid i:nth-child(3){bottom:-55%;left:18%;--x1:-24vw;--y1:-26%;--x2:22vw;--y2:-12%;background:radial-gradient(closest-side,#1fa7c9,transparent);opacity:.38;animation-duration:32s}
-.fluid i:nth-child(4){bottom:-40%;right:2%;--x1:-20vw;--y1:-30%;--x2:-34vw;--y2:-8%;background:radial-gradient(closest-side,#3b6cf0,transparent);animation-duration:26s;animation-delay:-9s}
-@keyframes blob{0%,100%{transform:translate(0,0) rotate(0deg) scale(1)}33%{transform:translate(var(--x1),var(--y1)) rotate(120deg) scale(1.2)}66%{transform:translate(var(--x2),var(--y2)) rotate(240deg) scale(.9)}}
+.fluid i{position:absolute;top:0;left:0;display:block;width:clamp(300px,62vw,640px);aspect-ratio:1/.8;opacity:.62;will-change:transform;transition:transform 10s cubic-bezier(.45,.05,.55,.95)}
+.fluid i:nth-child(1){background:radial-gradient(closest-side,#5865f2,transparent)}
+.fluid i:nth-child(2){background:radial-gradient(closest-side,#8a4df0,transparent)}
+.fluid i:nth-child(3){background:radial-gradient(closest-side,#1fa7c9,transparent);opacity:.42}
+.fluid i:nth-child(4){background:radial-gradient(closest-side,#3b6cf0,transparent)}
+.fluid i:nth-child(5){background:radial-gradient(closest-side,#c04df0,transparent);opacity:.4}
+.fluid:not(.rand) i:nth-child(1){left:-10%;top:-30%}.fluid:not(.rand) i:nth-child(2){right:-10%;left:auto;top:-20%}.fluid:not(.rand) i:nth-child(3){left:25%;top:40%}.fluid:not(.rand) i:nth-child(4){right:0;left:auto;top:35%}.fluid:not(.rand) i:nth-child(5){left:45%;top:-10%}
 .waves{position:absolute;left:0;right:0;bottom:-1px;height:96px;overflow:hidden;pointer-events:none}
 .wave{position:absolute;left:0;bottom:0;width:max(200%,1800px);height:100%;animation:wave 20s linear infinite}
 .wave path{fill:rgba(255,255,255,.06)}
@@ -45,16 +46,8 @@ h1,h2,h3{margin:0;line-height:1.15}
 .dc:active{transform:scale(.97)}
 .avatar{width:44px;height:44px;border-radius:8px;background:var(--blurple) url("https://minotar.net/helm/josetan/88") center/cover no-repeat;flex:none;image-rendering:pixelated}
 .brand b{display:block;line-height:1.2;font-size:1.05rem}.brand small{display:block;color:var(--muted);font-weight:500;font-size:.85rem}
-.hero h1{font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800;max-width:18ch;letter-spacing:-.02em}
+.hero h1{font-size:clamp(2.1rem,6vw,3.7rem);font-weight:800;max-width:18ch;letter-spacing:-.02em}
 .hero p{max-width:52ch;color:var(--muted);font-size:1.1rem;margin:18px 0 0}
-.hero-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:24px 24px;align-items:center}
-.hero-text{min-width:0}
-.art{position:relative;width:100%;aspect-ratio:1/.95;pointer-events:none;user-select:none}
-.shot{position:absolute;display:block;height:auto;animation:bob 8s ease-in-out infinite;-webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent),linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent),linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent);mask-composite:intersect}
-.s1{top:0;right:0;width:92%}
-.s2{bottom:0;left:0;width:68%;animation-duration:9s;animation-delay:-3s}
-.s3{bottom:-2%;right:0;width:58%;animation-duration:7s;animation-delay:-5s}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 .facts{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0;padding:0;list-style:none}
 .facts li{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);padding:6px 14px;border-radius:99px;font-size:.92rem;font-weight:500}
 .facts li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2.2s infinite}
@@ -131,14 +124,13 @@ footer p{margin:0;max-width:62ch;text-wrap:balance}
  body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
  .bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:5;justify-content:space-between;padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));background:var(--blurple);color:#fff;font-weight:600;text-decoration:none}
 }
-@media (max-width:900px){.hero-body{grid-template-columns:1fr}.art{max-width:480px;margin:-14px auto 0}}
 @media (max-width:640px){.hero{padding-bottom:84px}.waves{height:60px}.pkg{grid-template-columns:1fr}.pkg ul{grid-column:1;grid-row:auto;columns:1;margin-top:14px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 <header class="hero">
-  <div class="fluid" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="fluid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
   <div class="waves" aria-hidden="true">
     <svg class="wave" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0 60C75 12 225 108 300 60C375 12 525 108 600 60C675 12 825 108 900 60C975 12 1125 108 1200 60V120H0Z"/></svg>
     <svg class="wave" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0 60C75 12 225 108 300 60C375 12 525 108 600 60C675 12 825 108 900 60C975 12 1125 108 1200 60V120H0Z"/></svg>
@@ -147,16 +139,9 @@ footer p{margin:0;max-width:62ch;text-wrap:balance}
   <div class="wrap">
   <div class="topbar"><div class="brand"><span class="avatar" aria-hidden="true"></span><div><b id="brandName">Josetan</b><small>Software developer</small></div></div>
   <a class="dc" id="dc" target="_blank" rel="noopener" aria-label="Abrir mi perfil de Discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg><span>Discord</span></a></div>
-  <div class="hero-body"><div class="hero-text">
   <h1>Tu servidor de Minecraft, configurado y listo para jugar</h1>
   <p>Marca los complementos que necesites y mira tu cotización al instante. Sin compromiso: solo envías la solicitud y te respondo.</p>
   <ul class="facts"><li>Java y Bedrock</li><li>Soporte post-entrega incluido</li></ul>
-  </div>
-  <div class="art" aria-hidden="true">
-    <img class="shot s1" src="img/codigo.svg" alt="" width="600" height="400" decoding="async">
-    <img class="shot s2" src="img/servidores.svg" alt="" width="600" height="400" decoding="async">
-    <img class="shot s3" src="img/soporte.svg" alt="" width="600" height="400" decoding="async">
-  </div></div>
 </div></header>
 
 <div class="wrap"><main class="grid">
@@ -337,6 +322,24 @@ $("form").addEventListener("submit", async e => {
   location.href = `mailto:${atob(CONFIG.to)}?subject=${encodeURIComponent("Solicitud "+qid)}&body=${encodeURIComponent(body)}`;
   st.textContent = "Se abrió tu app de correo con la solicitud lista para enviar."; st.classList.add("ok");
 });
+</script>
+<script>
+/* Manchas del degradado: cada una viaja a puntos aleatorios del header, a su propio ritmo */
+(function(){
+  var box=document.querySelector(".fluid");
+  if(!box||matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  box.classList.add("rand");
+  var r=function(a,b){return a+Math.random()*(b-a)};
+  function go(el,first){
+    var W=box.clientWidth,H=box.clientHeight,w=el.offsetWidth,h=el.offsetHeight;
+    var x=r(-.3*w,W-.7*w),y=r(-.4*h,H-.6*h),d=first?0:r(6,13);
+    el.style.transitionDuration=d+"s";
+    el.style.transform="translate("+x.toFixed(0)+"px,"+y.toFixed(0)+"px) rotate("+r(-60,60).toFixed(0)+"deg) scale("+r(.8,1.35).toFixed(2)+")";
+    if(first){ el.offsetWidth; }
+    setTimeout(function(){go(el,false)}, first?50:d*750);
+  }
+  box.querySelectorAll("i").forEach(function(el,i){ go(el,true); });
+})();
 </script>
 </body>
 </html>
